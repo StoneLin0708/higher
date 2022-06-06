@@ -22,6 +22,7 @@ import typing as _typing
 import warnings as _warnings
 
 import torch as _torch
+from torch.types import _TensorOrTensors
 
 from . import patch as _patch
 from . import utils as _utils
@@ -149,6 +150,7 @@ class DifferentiableOptimizer(_abc.ABC):
     def step(
         self,
         loss: _torch.Tensor,
+        grad_outputs: _TensorOrTensors = None,
         params: _typing.Iterable[_torch.Tensor] = None,
         override: _typing.Optional[_OverrideType] = None,
         grad_callback: _typing.Optional[_GradCallbackType] = None,
@@ -229,6 +231,7 @@ class DifferentiableOptimizer(_abc.ABC):
         all_grads = _torch.autograd.grad(
             loss,
             grad_targets,
+            grad_outputs=grad_outputs,
             create_graph=self._track_higher_grads,
             allow_unused=True  # boo
         )
