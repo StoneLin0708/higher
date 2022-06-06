@@ -1046,7 +1046,7 @@ def apply_trainable_opt_params(
                 "parameter groups.".format(k)
             )
         for group_idx, group in enumerate(opt.param_groups):
-            replacement = v[0] if len(v) is 1 else v[group_idx]
+            replacement = v[0] if len(v) == 1 else v[group_idx]
             group[k] = _recursive_apply(replacement, group[k])
 
 
